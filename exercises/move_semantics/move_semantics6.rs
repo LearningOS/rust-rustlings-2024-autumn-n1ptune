@@ -11,7 +11,8 @@ fn main() {
 
     get_char(data.clone());
 
-    string_uppercase(data);
+    string_uppercase(data.clone());
+    println!("{}", data);
 }
 
 // Should not take ownership

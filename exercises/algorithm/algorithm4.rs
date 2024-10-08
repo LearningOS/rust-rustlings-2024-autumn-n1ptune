@@ -3,7 +3,6 @@
 	This problem requires you to implement a basic interface for a binary tree
 */
 
-//I AM NOT DONE
 use std::cmp::Ordering;
 use std::fmt::Debug;
 
@@ -51,12 +50,59 @@ where
     // Insert a value into the BST
     fn insert(&mut self, value: T) {
         //TODO
+        if self.root.is_none() {
+            self.root = Some(Box::new(TreeNode::new(value)));
+            return;
+        }
+        let mut current = self.root.as_mut().unwrap();
+        while true {
+            match value.cmp(&current.value) {
+                Ordering::Less => {
+                    match current.left {
+                        Some(ref mut node) => {
+                            current = node;
+                        }
+                        None => {
+                            current.left.insert(Box::new(TreeNode::new(value)));
+                            break;
+                        }
+                    }
+                }
+                Ordering::Greater => {
+                    match current.right {
+                        Some(ref mut node) => {
+                            current = node;
+                        }
+                        None => {
+                            current.right.insert(Box::new(TreeNode::new(value)));
+                            break;
+                        }
+                    }
+                }
+                Ordering::Equal => {
+                    break;
+                }
+            }
+        }
     }
 
     // Search for a value in the BST
     fn search(&self, value: T) -> bool {
-        //TODO
-        true
+        let mut current = &self.root;
+        while let Some(ref node) = current {
+            match value.cmp(&node.value) {
+                Ordering::Less => {
+                    current = &node.left;
+                }
+                Ordering::Greater => {
+                    current = &node.right;
+                }
+                Ordering::Equal => {
+                    return true;
+                }
+            }
+        }
+        false
     }
 }
 
@@ -67,6 +113,9 @@ where
     // Insert a node into the tree
     fn insert(&mut self, value: T) {
         //TODO
+        
+        *self= TreeNode::new(value);
+        
     }
 }
 
